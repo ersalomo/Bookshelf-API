@@ -2,8 +2,11 @@ const { nanoid } = require('nanoid');
 const { books } = require('./books');
 
 const addBooksHandler = (req, h) => {
-  // eslint-disable-next-line object-curly-newline
-  const { name, year, author, summary, publisher, pageCount, readPage, reading } = req.payload;
+  const {
+    name,
+    year,
+    author, summary, publisher, pageCount, readPage, reading,
+  } = req.payload;
 
   const id = nanoid(16);
   const finished = pageCount === readPage;
@@ -73,21 +76,22 @@ const getAllBooksHandler = (req, h) => {
 
   let filteredBooks = books;
 
+  if (name) {
+    filteredBooks = filteredBooks.filter(
+      (book) => book.name.toLowerCase().includes(name.toLowerCase()),
+    );
+  }
   if (reading) {
-    filteredBooks = filteredBooks.filter((book) => {
-      return book.reading.toLowerCase().includes(reading.toLowerCase());
-    });
+    filteredBooks = filteredBooks.filter(
+      (book) => book.reading === Boolean(reading),
+    );
   }
   if (finished) {
-    filteredBooks = filteredBooks.filter((book) => {
-      return book.finished.toLowerCase().includes(finished.toLowerCase());
-    });
+    filteredBooks = filteredBooks.filter(
+      (book) => book.finished === Boolean(finished),
+    );
   }
-  if (name) {
-    filteredBooks = filteredBooks.filter((book) => {
-      return book.name.toLowerCase().includes(name.toLowerCase());
-    });
-  }
+
   return h
     .response({
       status: 'success',
