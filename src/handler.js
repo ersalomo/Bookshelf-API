@@ -75,7 +75,8 @@ const getAllBooksHandler = (req, h) => {
   const { reading, finished, name } = req.query;
 
   let filteredBooks = books;
-
+  console.log(books);
+  console.log(Boolean(finished), finished);
   if (name) {
     filteredBooks = filteredBooks.filter(
       (book) => book.name.toLowerCase().includes(name.toLowerCase()),
@@ -87,8 +88,9 @@ const getAllBooksHandler = (req, h) => {
     );
   }
   if (finished) {
+    const isFinished = Number(finished) === 1;
     filteredBooks = filteredBooks.filter(
-      (book) => book.finished === Boolean(finished),
+      (book) => book.finished === isFinished,
     );
   }
 
