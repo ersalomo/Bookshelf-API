@@ -84,13 +84,12 @@ const getAllBooksHandler = (req, h) => {
   }
   if (reading) {
     filteredBooks = filteredBooks.filter(
-      (book) => book.reading === Boolean(reading),
+      (book) => book.reading === Boolean(Number(reading)),
     );
   }
   if (finished) {
-    const isFinished = Number(finished) === 1;
     filteredBooks = filteredBooks.filter(
-      (book) => book.finished === isFinished,
+      (book) => book.finished === Boolean(Number(finished)),
     );
   }
 
